@@ -34,17 +34,19 @@ public class Main {
 
         for (File movieFile : moviesFiles) {
             String baseFileName = movieFile.getName();
-            String encryptMovie = null;
+            StringBuilder encryptMovie = new StringBuilder();
             InputStream stream = new FileInputStream(movieFile);
             byte buf[] = new byte[1024];
+            String encryptMoviePart = new String();
             while ((stream.read(buf)) > 0) {
-                encryptMovie += base64encode(buf);
+                encryptMoviePart = base64encode(buf);
+                encryptMovie.append(encryptMoviePart.trim());
             }
             stream.close();
 
             for (Path path : pathList) {
                 if (path.toFile().getName().equals(baseFileName)) {
-                    writeToFile(encryptMovie, path);
+                    writeToFile(encryptMovie.toString(), path);
                     break;
                 }
             }

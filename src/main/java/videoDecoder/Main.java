@@ -35,20 +35,20 @@ public class Main {
             String baseFileName = movieFile.getName();
             InputStream stream = new FileInputStream(movieFile);
             Scanner scanner = new Scanner(stream);
-            byte[] bytes = null;
+            StringBuilder encryptMovie = new StringBuilder();
             while (scanner.hasNextLine()) {
-                bytes = base64decode(scanner.nextLine());
-                for (Path path : pathList) {
-                    if (path.toFile().getName().equals(baseFileName)) {
-                        writeToFile(bytes, path);
-                        break;
-                    }
+                encryptMovie.append(scanner.nextLine());
+            }
+            System.out.println(encryptMovie.length());
+            byte[] bytes = base64decode(encryptMovie.toString());
+            for (Path path : pathList) {
+                if (path.toFile().getName().equals(baseFileName)) {
+                    writeToFile(bytes, path);
+                    break;
                 }
             }
             scanner.close();
             stream.close();
-
-
         }
     }
 
