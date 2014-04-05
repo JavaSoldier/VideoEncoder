@@ -36,20 +36,27 @@ public class Main {
             String baseFileName = movieFile.getName();
             StringBuilder encryptMovie = new StringBuilder();
             InputStream stream = new FileInputStream(movieFile);
-            byte buf[] = new byte[1024];
+            // byte buf[] = new byte[1024];
+            byte buf[] = new byte[(int) movieFile.length()];
             String encryptMoviePart = new String();
             while ((stream.read(buf)) > 0) {
                 encryptMoviePart = base64encode(buf);
-                encryptMovie.append(encryptMoviePart.trim());
+                //encryptMovie.append(encryptMoviePart.trim());
+                for (Path path : pathList) {
+                    if (path.toFile().getName().equals(baseFileName)) {
+                        writeToFile(encryptMoviePart.trim(), path);
+                        break;
+                    }
+                }
             }
             stream.close();
 
-            for (Path path : pathList) {
-                if (path.toFile().getName().equals(baseFileName)) {
-                    writeToFile(encryptMovie.toString(), path);
-                    break;
-                }
-            }
+//            for (Path path : pathList) {
+//                if (path.toFile().getName().equals(baseFileName)) {
+//                    writeToFile(encryptMovie.toString(), path);
+//                    break;
+//                }
+//            }
         }
     }
 
