@@ -25,10 +25,13 @@ public class Utils {
 
     public static void writeToFile(String encryptMovie, Path paths) throws IOException {
         FileWriter fileWriter = new FileWriter(paths.toFile(), true);
-        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-        bufferedWriter.write(encryptMovie);
-        bufferedWriter.flush();
-        bufferedWriter.close();
+//        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+//        bufferedWriter.write(encryptMovie);
+//        bufferedWriter.flush();
+//        bufferedWriter.close();
+        fileWriter.write(encryptMovie);
+        fileWriter.flush();
+        fileWriter.close();
     }
 
     public static void writeToFile(byte[] bytes, Path paths) throws IOException {

@@ -10,7 +10,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * Created with IntelliJ IDEA.
@@ -35,23 +34,35 @@ public class Decoder {
         for (File movieFile : moviesFiles) {
             String baseFileName = movieFile.getName();
             InputStream stream = new FileInputStream(movieFile);
-            Scanner scanner = new Scanner(stream);
-            StringBuilder encryptMovie = new StringBuilder();
-            int i = 0;
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                encryptMovie.append(line);
-                System.out.println(i++ + " --> " + line.length());
-            }
-            System.out.println(encryptMovie.length());
-            byte[] bytes = Utils.base64decode(encryptMovie.toString());
-            for (Path path : pathList) {
-                if (path.toFile().getName().equals(baseFileName)) {
-                    Utils.writeToFile(bytes, path);
-                    break;
+//            Scanner scanner = new Scanner(stream);
+//            StringBuilder encryptMovie = new StringBuilder();
+//            int i = 0;
+//            while (scanner.hasNextLine()) {
+//                String line = scanner.nextLine();
+//                encryptMovie.append(line);
+//                System.out.println(i++ + " --> " + line.length());
+//            }
+//            System.out.println(encryptMovie.length());
+//            byte[] bytes = Utils.base64decode(encryptMovie.toString());
+//            for (Path path : pathList) {
+//                if (path.toFile().getName().equals(baseFileName)) {
+//                    Utils.writeToFile(bytes, path);
+//                    break;
+//                }
+//            }
+//            scanner.close();
+
+
+            byte buf[] = new byte[(int) movieFile.length() / 10];
+            while ((stream.read(buf)) > 0) {
+                byte[] decodeBuf = Utils.base64decode(new String(buf));
+                for (Path path : pathList) {
+                    if (path.toFile().getName().equals(baseFileName)) {
+                        Utils.writeToFile(decodeBuf, path);
+                        break;
+                    }
                 }
             }
-            scanner.close();
             stream.close();
         }
     }
